@@ -1,45 +1,11 @@
 #pragma once
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
-#include <vector>
-#include <stack>
+#include "Graph.h"
 
 
-class GraphTOE
+class GraphTOE : public Graph
 {
 private:
-	int numberOfNodes;
-	bool **graphMatrix;
 	std::vector<std::vector<int>> tableOfEdges;
-
-	void randDAG()
-	{
-		graphMatrix = new bool *[numberOfNodes];
-		for (int i = 0; i < numberOfNodes; i++)
-		{
-			graphMatrix[i] = new bool[numberOfNodes];
-		}
-		for (int i = 0; i < numberOfNodes; i++)
-		{
-			for (int j = 0; j < numberOfNodes; j++)
-			{
-				graphMatrix[i][j] = false;
-			}
-		}
-		int numberOfEdges = (this->numberOfNodes *(this->numberOfNodes - 1)) / 4;
-		int row, col;
-		while (numberOfEdges > 0)
-		{
-			row = rand() % (this->numberOfNodes - 1);
-			col = rand() % (this->numberOfNodes - 1);
-			if (col > row && row < this->numberOfNodes - 1 && graphMatrix[row][col] != true)
-			{
-				graphMatrix[row][col] = true;
-				numberOfEdges--;
-			}
-		}
-	}
 
 	void transformMatrixToTable()
 	{
@@ -59,15 +25,6 @@ private:
 		}
 	}
 
-	void deleteMatrix()
-	{
-		for (int i = 0; i < numberOfNodes; i++)
-		{
-			delete[] graphMatrix[i];
-		}
-		delete[] graphMatrix;
-	}
-
 public:
 
 	GraphTOE()
@@ -77,24 +34,13 @@ public:
 
 	GraphTOE(int numberOfNodes)
 	{
-		this->numberOfNodes = numberOfNodes;
-		randDAG();
+		newGraph(numberOfNodes);
 		transformMatrixToTable();
-		deleteMatrix();
 	}
 
 	~GraphTOE()
 	{
-
-	}
-
-	void newGraph(int numberOfNodes)
-	{
-		this->numberOfNodes = numberOfNodes;
 		tableOfEdges.clear();
-		randDAG();
-		transformMatrixToTable();
-		deleteMatrix();
 	}
 
 	void printTOE()
