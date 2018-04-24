@@ -34,12 +34,18 @@ public:
 	GraphLON(int numberOfNodes)
 	{
 		newGraph(numberOfNodes);
-		transformMatrixToList();
 	}
 
 	~GraphLON()
 	{
 		graphList.clear();
+	}
+
+	void newGraph(int numberOfNodes)
+	{
+		Graph::newGraph(numberOfNodes);
+		graphList.clear();
+		transformMatrixToList();
 	}
 
 	void printLON()
@@ -54,7 +60,7 @@ public:
 		}
 	}
 
-	void BFSTopologicalSort()
+	virtual void BFSTopologicalSort()
 	{
 		int *numberOfPredecessors = new int[this->numberOfNodes];
 		std::vector<int> sorted;
@@ -94,7 +100,7 @@ public:
 		}
 	}
 
-	void DFSTopologicalSort()
+	virtual void DFSTopologicalSort()
 	{
 		std::stack<int> graphStack;
 		bool *visited = new bool[this->numberOfNodes];
@@ -206,7 +212,7 @@ public:
 		{
 			for (int j = 0; j < this->numberOfNodes - 1; j++)
 			{
-				if (prePostNumeration[j][1] < prePostNumeration[j+1][1])
+				if (prePostNumeration[j][1] < prePostNumeration[j + 1][1])
 				{
 					std::swap(prePostNumeration[j], prePostNumeration[j + 1]);
 					std::swap(sorted[j], sorted[j + 1]);

@@ -23,7 +23,7 @@ public:
 		deleteMatrix();
 	}
 
-	void BFSTopologicalSort()
+	virtual void BFSTopologicalSort()
 	{
 		int *numberOfPredecessors = new int[this->numberOfNodes];
 		std::vector<int> sorted;
@@ -59,7 +59,7 @@ public:
 						numberOfPredecessors[j]--;
 					}
 				}
-				i = 0; 
+				i = 0;
 			}
 		}
 		for (int i = 0; i < this->numberOfNodes; i++)
@@ -69,7 +69,7 @@ public:
 
 	}
 
-	void DFSTopologicalSort()
+	virtual void DFSTopologicalSort()
 	{
 		std::stack<int> graphStack;
 		bool *visited = new bool[this->numberOfNodes];

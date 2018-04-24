@@ -35,12 +35,18 @@ public:
 	GraphTOE(int numberOfNodes)
 	{
 		newGraph(numberOfNodes);
-		transformMatrixToTable();
 	}
 
 	~GraphTOE()
 	{
 		tableOfEdges.clear();
+	}
+
+	void newGraph(int numberOfNodes)
+	{
+		Graph::newGraph(numberOfNodes);
+		tableOfEdges.clear();
+		transformMatrixToTable();
 	}
 
 	void printTOE()
@@ -51,7 +57,7 @@ public:
 		}
 	}
 
-	void BFSTopologicalSort()
+	virtual void BFSTopologicalSort()
 	{
 		int *numberOfPredecessors = new int[this->numberOfNodes];
 		std::vector<int> sorted;
@@ -91,7 +97,7 @@ public:
 		}
 	}
 
-	void DFSTopologicalSort()
+	virtual void DFSTopologicalSort()
 	{
 		std::stack<int> graphStack;
 		bool *visited = new bool[this->numberOfNodes];

@@ -48,9 +48,9 @@ public:
 		randDAG();
 	}
 
-	void BFSTopologicalSort();
+	virtual void BFSTopologicalSort() = 0;
 
-	void DFSTopologicalSort();
+	virtual void DFSTopologicalSort() = 0;
 
 protected:
 
