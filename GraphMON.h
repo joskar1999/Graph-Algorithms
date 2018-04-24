@@ -1,41 +1,10 @@
 #pragma once
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
-#include <vector>
-#include <stack>
+#include "Graph.h"
 
 
-class GraphMON
+class GraphMON : public Graph
 {
 private:
-	int numberOfNodes;
-	bool **graphMatrix;
-
-	void randDAG()
-	{
-		int numberOfEdges = (this->numberOfNodes *(this->numberOfNodes - 1)) / 4;
-		int row, col;
-		while (numberOfEdges > 0)
-		{
-			row = rand() % (this->numberOfNodes - 1);
-			col = rand() % (this->numberOfNodes - 1);
-			if (col > row && row < this->numberOfNodes - 1 && graphMatrix[row][col] != true)
-			{
-				graphMatrix[row][col] = true;
-				numberOfEdges--;
-			}
-		}
-	}
-
-	void deleteMatrix()
-	{
-		for (int i = 0; i < numberOfNodes; i++)
-		{
-			delete[] graphMatrix[i];
-		}
-		delete[] graphMatrix;
-	}
 
 public:
 
@@ -46,64 +15,15 @@ public:
 
 	GraphMON(int numberOfNodes)
 	{
-		this->numberOfNodes = numberOfNodes;
-
-		graphMatrix = new bool *[numberOfNodes];
-		for (int i = 0; i < numberOfNodes; i++)
-		{
-			graphMatrix[i] = new bool[numberOfNodes];
-		}
-		for (int i = 0; i < numberOfNodes; i++)
-		{
-			for (int j = 0; j < numberOfNodes; j++)
-			{
-				graphMatrix[i][j] = false;
-			}
-		}
-		randDAG();
+		newGraph(numberOfNodes);
 	}
 
 	~GraphMON()
 	{
-		for (int i = 0; i < numberOfNodes; i++)
-		{
-			delete[] graphMatrix[i];
-		}
-		delete[] graphMatrix;
-	}
-
-	void newGraph(int numberOfNodes)
-	{
 		deleteMatrix();
-		this->numberOfNodes = numberOfNodes;
-		graphMatrix = new bool *[numberOfNodes];
-		for (int i = 0; i < numberOfNodes; i++)
-		{
-			graphMatrix[i] = new bool[numberOfNodes];
-		}
-		for (int i = 0; i < numberOfNodes; i++)
-		{
-			for (int j = 0; j < numberOfNodes; j++)
-			{
-				graphMatrix[i][j] = false;
-			}
-		}
-		randDAG();
 	}
 
-	void printMON()
-	{
-		for (int i = 0; i < numberOfNodes; i++)
-		{
-			for (int j = 0; j < numberOfNodes; j++)
-			{
-				std::cout << graphMatrix[i][j] << "\t";
-			}
-			std::cout << std::endl;
-		}
-	}
-
-	void BFSTopologicalSort()
+	virtual void BFSTopologicalSort()
 	{
 		int *numberOfPredecessors = new int[this->numberOfNodes];
 		std::vector<int> sorted;
@@ -139,7 +59,7 @@ public:
 						numberOfPredecessors[j]--;
 					}
 				}
-				i = 0; 
+				i = 0;
 			}
 		}
 		for (int i = 0; i < this->numberOfNodes; i++)
@@ -149,7 +69,7 @@ public:
 
 	}
 
-	void DFSTopologicalSort()
+	virtual void DFSTopologicalSort()
 	{
 		std::stack<int> graphStack;
 		bool *visited = new bool[this->numberOfNodes];
